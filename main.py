@@ -11,6 +11,7 @@ class Car:
     @property
     def name(self):
         return self.__name
+
     @property
     def position(self):
         return self.__position
@@ -48,21 +49,27 @@ class Cars:
         return winners
 
 
-def randomNumber():
+def random_number():
     return int(random.random() * 10)
 
 
-def fakeRandomNumber():
+def fake_random_number():
     return 6
-
-
-def car_move(car, randomNumber):
-    if randomNumber > 5:
-        return CarData(car.name, car.position + 1)
-    return car
 
 
 @dataclass(frozen=True)
 class CarData:
     name: str
     position: int = 0
+
+
+def car_move(car, randomNumber):
+    return CarData(car.name, car.position + 1) if randomNumber() > 5 else car
+
+
+def cars_move(cars, randomNumber):
+    return [car_move(car, randomNumber) for car in cars]
+
+
+def winners(cars):
+    return [car for car in cars if car.position == max(car.position for car in cars)]
